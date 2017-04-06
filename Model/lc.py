@@ -1,7 +1,7 @@
-class MC(object):
+class LC(object):
 	"""docstring for MC"""
 	def __init__(self, arg):
-		super(MC, self).__init__()
+		super(LC, self).__init__()
 		self.arg = arg
 		
-	 
+	

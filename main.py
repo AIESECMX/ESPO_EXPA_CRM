@@ -1,7 +1,8 @@
 from Controller.gis_token_generator import GIS
+from Controller.espo import ESPO
 
 def main ():
-
+	ESPO('user','MCHub-wm1954')
 	tokeng =  GIS()
 	print tokeng.generate_token('enrique.suarez@aiesec.net','si no leo me aburro')
 	print tokeng.generate_op_token('enrique.suarez@aiesec.net','si no leo me aburro')
