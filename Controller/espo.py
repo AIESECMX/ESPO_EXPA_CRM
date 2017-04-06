@@ -1,3 +1,9 @@
+import json 
+import requests
+import sys
+sys.append('..')
+
+
 class ESPO(object):
 	"""docstring for ESPO"""
 	def __init__(self, arg):
