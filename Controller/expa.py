@@ -48,7 +48,6 @@ class EXPA(object):
 	def get_Opps(self,paramaters = None):
 		return None
 
-
 	#this mehotd gets applications form expa using the sepcified EXPA ID
 	def get_Application(self,application_id):
 		return None
