@@ -18,8 +18,9 @@ class ESPO(object):
 	"""docstring for ESPO"""
 	def __init__(self, user, passwd ,test = False):
 		super(ESPO, self).__init__()
+		self.base64 = base64.b64encode(user+':'+passwd)
 		header = {
-		'Espo-Authorization': base64.b64encode(user+':'+passwd)
+		'Espo-Authorization': self.base64
 		}
 		self.test = test
 		if (self.test):
@@ -27,32 +28,54 @@ class ESPO(object):
 		else:
 			self.url = 'http://107.178.211.253/espocrm/api/v1/'
 		t = requests.get(self.url+'App/user',headers= header)
-		self.token =  json.loads(t.text)['user']['token']
-				
+		self.token = json.loads(t.text)['user']['token']	
+		self.headers = {
+		'Espo-Authorization': base64.b64encode(user+':'+self.token)
+		}
 
-	#setting the stest mode
-	def set_test(self,test = True):
+	#if the token is not valid anyomore get a new one
+	def new_token():
+		header = {
+		'Espo-Authorization': self.base64
+		}
 		self.test = test
 		if (self.test):
 			self.url = 'http://104.197.179.91/espocrm/api/v1/'
 		else:
 			self.url = 'http://107.178.211.253/espocrm/api/v1/'
 		t = requests.get(self.url+'App/user',headers= header)
-		self.token =  json.loads(t.text)['user']['token']
+		self.token = json.loads(t.text)['user']['token']	
+		self.headers = {
+		'Espo-Authorization': base64.b64encode(user+':'+self.token)
+		}
+
+
+
 
 	#this mehotd gets mcs form espo using the sepcified espo ID
 	def get_MC(self, mc_id):
+		r = requests.get(self.url+'MC/'+mc_id,headers= self.headers)
+		return json.loads(r.text)
+
+	#this mehotd gets mcs form espo using the sepcified expa ID
+	def get_expa_MC(self, mc_id):
 		return None
 
 	#gets a list of MCs with the specified espo parameters 
-	def get_MCs(self, params):
+	def get_MCs(self, params = None):
+		if params is None:
+			r = requests.get(self.url+'MC',headers= self.headers)
+			print r.text
+		else:
+			#TODO: get the request with parameters
+			return None
 		return None
 
-	#this mehotd gets mcs form espo using the sepcified espo ID
-	def create_MC(self, mc_id):
+	#this mehotd creates the specified mc in espo
+	def create_MC(self, mc):
 		return None
 
-	#updates an MC that already exists in podio
+	#updates an MC that already exists in espo
 	def update_MC(self,mc):
 		return None
 
@@ -61,11 +84,23 @@ class ESPO(object):
 
 	#this mehotd gets applications form espo using the sepcified espo ID
 	def get_application(self, application_id):
+		r = requests.get(self.url+'Application/'+mc_id,headers= self.headers)
+		return json.loads(r.text)
+
+	#this mehotd gets applications form espo using the sepcified expa ID
+	def get_expa_application(self, application_id):
 		return None
 
 	#gets a list of applications with the specified espo parameters 
-	def get_applications(self, params):
+	def get_applications(self, params= None):
+		if params is None:
+			r = requests.get(self.url+'Application',headers= self.headers)
+			print r.text
+		else:
+			#TODO: get the request with parameters
+			return None
 		return None
+		
 
 	#this mehotd gets applications form espo using the sepcified espo ID
 	def create_application(self, application_id):
@@ -80,10 +115,22 @@ class ESPO(object):
 
 	#this mehotd gets enablers form espo using the sepcified espo ID
 	def get_enabler(self, enabler_id):
+		r = requests.get(self.url+'EnablerEXPA/'+mc_id,headers= self.headers)
+		return json.loads(r.text)
+
+
+	#this mehotd gets enablers form espo using the sepcified expa ID
+	def get_expa_enabler(self, enabler_id):
 		return None
 
 	#gets a list of enablers with the specified espo parameters 
-	def get_enablers(self, params):
+	def get_enablers(self, params=None):
+		if params is None:
+			r = requests.get(self.url+'EnablerEXPA',headers= self.headers)
+			print r.text
+		else:
+			#TODO: get the request with parameters
+			return None
 		return None
 
 	#this mehotd gets enablers form espo using the sepcified espo ID
@@ -98,10 +145,21 @@ class ESPO(object):
 
 	#this mehotd gets lcs form espo using the sepcified espo ID
 	def get_lc(self, lc_id):
+		r = requests.get(self.url+'LC/'+mc_id,headers= self.headers)
+		return json.loads(r.text)
+
+	#this mehotd gets lcs form espo using the sepcified expa ID
+	def get_expa_lc(self, lc_id):
 		return None
 
 	#gets a list of lcs with the specified espo parameters 
-	def get_lcs(self, params):
+	def get_lcs(self, params=None):
+		if params is None:
+			r = requests.get(self.url+'LC',headers= self.headers)
+			print r.text
+		else:
+			#TODO: get the request with parameters
+			return None
 		return None
 
 	#this mehotd gets lcs form espo using the sepcified espo ID
@@ -116,10 +174,21 @@ class ESPO(object):
 
 	#this mehotd gets opportunities form espo using the sepcified espo ID
 	def get_opportunity(self, opportunity_id):
+		r = requests.get(self.url+'OpportunityExpa/'+mc_id,headers= self.headers)
+		return json.loads(r.text)
+
+	#this mehotd gets opportunities form espo using the sepcified expa ID
+	def get_expa_opportunity(self, opportunity_id):
 		return None
 
 	#gets a list of opportunities with the specified espo parameters 
-	def get_opportunities(self, params):
+	def get_opportunities(self, params=None):
+		if params is None:
+			r = requests.get(self.url+'OpportunityExpa',headers= self.headers)
+			print r.text
+		else:
+			#TODO: get the request with parameters
+			return None
 		return None
 
 	#this mehotd gets opportunitys form espo using the sepcified espo ID
@@ -135,10 +204,22 @@ class ESPO(object):
 
 	#this mehotd gets persons form espo using the sepcified espo ID
 	def get_person(self, person_id):
+		r = requests.get(self.url+'Person/'+mc_id,headers= self.headers)
+		return json.loads(r.text)
+
+
+	#this mehotd gets persons form espo using the sepcified espo ID
+	def get_expa_person(self, person_id):
 		return None
 
 	#gets a list of persons with the specified espo parameters 
-	def get_persons(self, params):
+	def get_persons(self, params=None):
+		if params is None:
+			r = requests.get(self.url+'Person',headers= self.headers)
+			print r.text
+		else:
+			#TODO: get the request with parameters
+			return None
 		return None
 
 	#this mehotd gets persons form espo using the sepcified espo ID
