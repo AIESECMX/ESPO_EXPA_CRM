@@ -1,9 +1,9 @@
 #this Script is a cntrol script for the operations will be executing with expa
 import json
-import gis_token_generator
+from gis_token_generator import GIS
 import requests
 import sys
-sys.append('..')
+sys.path.append('..')
 
 class EXPA(object):
 
@@ -17,8 +17,7 @@ class EXPA(object):
 		self.url = 'https://gis-api.aiesec.org/v2/'
 		token_genrator = GIS()
 		self.expa_token =  token_genrator.generate_token(user_mail, user_pass)
-		self.yop_token =  token_genrator.generate_op_token(user_mail, user_pass)
-
+		#self.yop_token =  token_genrator.generate_op_token(user_mail, user_pass)
 
 	def get_MCs(self, paramaters = None):
 		return None
@@ -29,7 +28,12 @@ class EXPA(object):
 
 
 	def get_LCs(self,paramaters = None):
+		headers = {'access_token': self.expa_token,
+		'filters[parent][]':[1589]}
+		r = requests.get(self.url+'committees',data = headers)
+		print r.text
 		return None
+
 	#this mehotd gets LCs form expa using the sepcified EXPA ID
 	def get_LC(self,lc_id):
 		return None
