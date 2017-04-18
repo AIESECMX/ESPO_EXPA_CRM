@@ -20,47 +20,98 @@ class EXPA(object):
 		#self.yop_token =  token_genrator.generate_op_token(user_mail, user_pass)
 
 	def get_MCs(self, paramaters = None):
-		return None
+		if(paramaters != None):
+			params = paramaters
+			params.append({'access_token':self.expa_token})
+		else:
+			params = {'filters[parent]':[1589],
+			'access_token':self.expa_token}
+		response = requests.get(self.url+'committees', data=params)
+		return json.loads(response.text)
 
 	#this mehotd gets mcs form expa using the sepcified EXPA ID
-	def get_MC(self, mc_id):
-		return None
+	def get_MC(self, mc_id = 1589):
+		params = {'access_token':self.expa_token}
+		response = requests.get(self.url+'committees/' + str(mc_id) + '.json', data=params)
+		return json.loads(response.text)
 
 
 	def get_LCs(self,paramaters = None):
-		headers = {'access_token': self.expa_token,
-		'filters[parent][]':[1589]}
-		r = requests.get(self.url+'committees',data = headers)
-		print r.text
-		return r.text
+		if(paramaters != None):
+			headers = paramaters
+			headers.append({'access_token':self.expa_token})
+		else:
+			headers = {'access_token': self.expa_token,
+			'filters[parent][]':[1589]}
+		r = requests.get(self.url+'committees', data = headers)
+		return json.loads(r.text)
 
 	#this mehotd gets LCs form expa using the sepcified EXPA ID
 	def get_LC(self,lc_id):
-		return None
+		params = {'access_token':self.expa_token}
+		response = requests.get(self.url+'committees/' + str(lc_id) + '.json', data=params)
+		return json.loads(response.text)
 
 	#this mehotd gets People form expa using the sepcified EXPA ID
 	def get_Person(self,person_id):
-		return None
+		params = {'person_id':person_id,
+		'access_token':self.expa_token}
+		response = requests.get(self.url+'people/' + str(person_id) + '.json', data=params)
+		return json.loads(response.text)
 
 	def get_People(self, paramaters = None):
-		return None
+		if(paramaters != None):
+			params = paramaters
+			params.append({'access_token':self.expa_token})
+		else:
+			params = {'filters[mcs]':[1589],
+			'access_token':self.expa_token}
+		response = requests.get(self.url+'people', data=params)
+		return json.loads(response.text)
 
 	#this mehotd gets Opportunities form expa using the sepcified EXPA ID
 	def get_Opp(self,opp_id):
-		return None
+		params = {'access_token':self.expa_token}
+		response = requests.get(self.url+'opportunities/' + str(opp_id) + '.json', data=params)
+		return json.loads(response.text)
 
 	def get_Opps(self,paramaters = None):
-		return None
+		if(paramaters != None):
+			params = paramaters
+			params.append({'access_token':self.expa_token})
+		else:
+			params = {'filters[home_mcs]':[1589],
+			'access_token':self.expa_token}
+		response = requests.get(self.url+'opportunities', data=params)
+		return json.loads(response.text)
 
 	#this mehotd gets applications form expa using the sepcified EXPA ID
 	def get_Application(self,application_id):
-		return None
+		params = {'access_token':self.expa_token}
+		response = requests.get(self.url+'applications/' + str(application_id) + '.json', data=params)
+		return json.loads(response.text)
 
-	def get_Applications(slef,paramaters = None):
-		return None
+	def get_Applications(self,paramaters = None):
+		if(paramaters != None):
+			params = paramaters
+			params.append({'access_token':self.expa_token})
+		else:
+			params = {'filters[opportunity_home_mc]':[1589],
+			'access_token':self.expa_token}
+		response = requests.get(self.url+'applications', data=params)
+		return json.loads(response.text)
 
 	def get_Enabler(self,enabler_id):
-		return None
+		params = {'access_token':self.expa_token}
+		response = requests.get(self.url+'organisations/' + str(enabler_id) + '.json', data=params)
+		return json.loads(response.text)
 
 	def get_Enablers(self, paramaters = None):
-		return None
+		if(paramaters != None):
+			params = paramaters
+			params.append({'access_token':self.expa_token})
+		else:
+			params = {'filters[committee]':[1589],
+			'access_token':self.expa_token}
+		response = requests.get(self.url+'organisations', data=params)
+		return json.loads(response.text)
