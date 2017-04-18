@@ -32,7 +32,7 @@ class EXPA(object):
 		'filters[parent][]':[1589]}
 		r = requests.get(self.url+'committees',data = headers)
 		print r.text
-		return None
+		return r.text
 
 	#this mehotd gets LCs form expa using the sepcified EXPA ID
 	def get_LC(self,lc_id):

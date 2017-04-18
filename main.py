@@ -23,7 +23,7 @@ def main ():
 	#espo.get_opportunities()
 	#espo.get_lcs()
 	#espo.get_enablers()
-	expa =  EXPA('enrique.suarez@aiesec.net','si no leo me aburro')
+	expa =  EXPA('','')
 	expa.get_LCs()
 	#print tokeng.generate_token('','')
 	#print tokeng.generate_op_token('','')
