@@ -15,16 +15,18 @@ def main ():
 		passwd = config.CRM_PASSWD
 
 
-	#espo =  ESPO(user,passwd,test = test )
+	espo =  ESPO(user,passwd,test = test )
 	#print espo.token
 	#espo.get_MC('58d192e82587727f1')
+	#espo.get_MCs()
+	#print espo.get_expa_MC(1589)
 	#espo.get_applications()
 	#espo.get_persons()
 	#espo.get_opportunities()
 	#espo.get_lcs()
 	#espo.get_enablers()
-	expa =  EXPA('','')
-	expa.get_LCs()
+	expa =  EXPA('enrique.suarez@aiesec.net','si no leo me aburro')
+	print expa.get_LCs()
 	#print tokeng.generate_token('','')
 	#print tokeng.generate_op_token('','')
 	

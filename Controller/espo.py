@@ -59,7 +59,17 @@ class ESPO(object):
 
 	#this mehotd gets mcs form espo using the sepcified expa ID
 	def get_expa_MC(self, mc_id):
-		return None
+		if self.test:
+			params = {
+				'where[0][type]':'equals',
+				'where[0][attribute]':'expaId',
+				'where[0][value]':mc_id
+				}
+		else:
+			return None
+		r = requests.get(self.url+'MC',headers= self.headers,params=params)
+		return json.loads(r.text)['list']
+		
 
 	#gets a list of MCs with the specified espo parameters 
 	def get_MCs(self, params = None):
@@ -67,9 +77,9 @@ class ESPO(object):
 			r = requests.get(self.url+'MC',headers= self.headers)
 			print r.text
 		else:
-			#TODO: get the request with parameters
-			return None
-		return None
+			r = requests.get(self.url+'MC',headers= self.headers,params=params)
+			return json.loads(r.text)['list']
+			
 
 	#this mehotd creates the specified mc in espo
 	def create_MC(self, mc):
@@ -89,7 +99,17 @@ class ESPO(object):
 
 	#this mehotd gets applications form espo using the sepcified expa ID
 	def get_expa_application(self, application_id):
-		return None
+		if self.test:
+			params = {
+				'where[0][type]':'equals',
+				#'where[0][attribute]':'todo',
+				'where[0][value]':application_id
+				}
+		else:
+			return None
+
+		r = requests.get(self.url+'Application',headers= self.headers,params=params)
+		return json.loads(r.text)['list']
 
 	#gets a list of applications with the specified espo parameters 
 	def get_applications(self, params= None):
@@ -97,9 +117,8 @@ class ESPO(object):
 			r = requests.get(self.url+'Application',headers= self.headers)
 			print r.text
 		else:
-			#TODO: get the request with parameters
-			return None
-		return None
+			r = requests.get(self.url+'Application',headers= self.headers,params=params)
+			return json.loads(r.text)['list']
 		
 
 	#this mehotd gets applications form espo using the sepcified espo ID
@@ -121,7 +140,18 @@ class ESPO(object):
 
 	#this mehotd gets enablers form espo using the sepcified expa ID
 	def get_expa_enabler(self, enabler_id):
-		return None
+		if self.test:
+			params = {
+				'where[0][type]':'equals',
+				'where[0][attribute]':'todo',
+				'where[0][value]':enabler_id
+				}
+		else:
+			return None
+
+		r = requests.get(self.url+'EnablerEXPA',headers= self.headers,params=params)
+		return json.loads(r.text)['list']
+
 
 	#gets a list of enablers with the specified espo parameters 
 	def get_enablers(self, params=None):
@@ -129,9 +159,8 @@ class ESPO(object):
 			r = requests.get(self.url+'EnablerEXPA',headers= self.headers)
 			print r.text
 		else:
-			#TODO: get the request with parameters
-			return None
-		return None
+			r = requests.get(self.url+'EnablerEXPA',headers= self.headers,params=params)
+			return json.loads(r.text)['list']
 
 	#this mehotd gets enablers form espo using the sepcified espo ID
 	def create_enabler(self, enabler_id):
@@ -150,7 +179,19 @@ class ESPO(object):
 
 	#this mehotd gets lcs form espo using the sepcified expa ID
 	def get_expa_lc(self, lc_id):
-		return None
+		if self.test:
+			params = {
+				'where[0][type]':'equals',
+				'where[0][attribute]':'todo',
+				'where[0][value]':lc_id
+				}
+		else:
+			return None
+
+		r = requests.get(self.url+'LC',headers= self.headers,params=params)
+		return json.loads(r.text)['list']
+
+
 
 	#gets a list of lcs with the specified espo parameters 
 	def get_lcs(self, params=None):
@@ -158,9 +199,8 @@ class ESPO(object):
 			r = requests.get(self.url+'LC',headers= self.headers)
 			print r.text
 		else:
-			#TODO: get the request with parameters
-			return None
-		return None
+			r = requests.get(self.url+'LC',headers= self.headers,params=params)
+			return json.loads(r.text)['list']
 
 	#this mehotd gets lcs form espo using the sepcified espo ID
 	def create_lc(self, lc_id):
@@ -179,7 +219,16 @@ class ESPO(object):
 
 	#this mehotd gets opportunities form espo using the sepcified expa ID
 	def get_expa_opportunity(self, opportunity_id):
-		return None
+		if self.test:
+			params = {
+				'where[0][type]':'equals',
+				'where[0][attribute]':'todo',
+				'where[0][value]':opportunity_id
+				}
+		else:
+			return None
+		r = requests.get(self.url+'OpportunityExpa',headers= self.headers,params=params)
+		return json.loads(r.text)['list']
 
 	#gets a list of opportunities with the specified espo parameters 
 	def get_opportunities(self, params=None):
@@ -187,9 +236,8 @@ class ESPO(object):
 			r = requests.get(self.url+'OpportunityExpa',headers= self.headers)
 			print r.text
 		else:
-			#TODO: get the request with parameters
-			return None
-		return None
+			r = requests.get(self.url+'OpportunityExpa',headers= self.headers,params=params)
+			return json.loads(r.text)['list']
 
 	#this mehotd gets opportunitys form espo using the sepcified espo ID
 	def create_opportunity(self, opportunity_id):
@@ -210,7 +258,17 @@ class ESPO(object):
 
 	#this mehotd gets persons form espo using the sepcified espo ID
 	def get_expa_person(self, person_id):
-		return None
+		if self.test:
+			params = {
+				'where[0][type]':'equals',
+				'where[0][attribute]':'todo',
+				'where[0][value]':person_id
+				}
+		else:
+			return None
+
+		r = requests.get(self.url+'Person',headers= self.headers,params=params)
+		return json.loads(r.text)['list']
 
 	#gets a list of persons with the specified espo parameters 
 	def get_persons(self, params=None):
@@ -218,9 +276,8 @@ class ESPO(object):
 			r = requests.get(self.url+'Person',headers= self.headers)
 			print r.text
 		else:
-			#TODO: get the request with parameters
-			return None
-		return None
+			r = requests.get(self.url+'Person',headers= self.headers,params=params)
+			return json.loads(r.text)['list']
 
 	#this mehotd gets persons form espo using the sepcified espo ID
 	def create_person(self, person_id):

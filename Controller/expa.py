@@ -27,7 +27,7 @@ class EXPA(object):
 			params = {'filters[parent]':[1589],
 			'access_token':self.expa_token}
 		response = requests.get(self.url+'committees', data=params)
-		return json.loads(response.text)
+		return json.loads(response.text)['data']
 
 	#this mehotd gets mcs form expa using the sepcified EXPA ID
 	def get_MC(self, mc_id = 1589):
@@ -44,7 +44,7 @@ class EXPA(object):
 			headers = {'access_token': self.expa_token,
 			'filters[parent][]':[1589]}
 		r = requests.get(self.url+'committees', data = headers)
-		return json.loads(r.text)
+		return json.loads(r.text)['data']
 
 	#this mehotd gets LCs form expa using the sepcified EXPA ID
 	def get_LC(self,lc_id):
@@ -67,7 +67,7 @@ class EXPA(object):
 			params = {'filters[mcs]':[1589],
 			'access_token':self.expa_token}
 		response = requests.get(self.url+'people', data=params)
-		return json.loads(response.text)
+		return json.loads(response.text)['data']
 
 	#this mehotd gets Opportunities form expa using the sepcified EXPA ID
 	def get_Opp(self,opp_id):
@@ -83,7 +83,7 @@ class EXPA(object):
 			params = {'filters[home_mcs]':[1589],
 			'access_token':self.expa_token}
 		response = requests.get(self.url+'opportunities', data=params)
-		return json.loads(response.text)
+		return json.loads(response.text)['data']
 
 	#this mehotd gets applications form expa using the sepcified EXPA ID
 	def get_Application(self,application_id):
@@ -99,7 +99,7 @@ class EXPA(object):
 			params = {'filters[opportunity_home_mc]':[1589],
 			'access_token':self.expa_token}
 		response = requests.get(self.url+'applications', data=params)
-		return json.loads(response.text)
+		return json.loads(response.text)['data']
 
 	def get_Enabler(self,enabler_id):
 		params = {'access_token':self.expa_token}
@@ -114,4 +114,4 @@ class EXPA(object):
 			params = {'filters[committee]':[1589],
 			'access_token':self.expa_token}
 		response = requests.get(self.url+'organisations', data=params)
-		return json.loads(response.text)
+		return json.loads(response.text)['data']
