@@ -3,7 +3,7 @@ import requests
 import sys
 import base64
 sys.path.append('..')
-
+from  Model.mc import MC
 
 #
 #For this class we define mehtods to pushinformation into ESPO
@@ -30,6 +30,7 @@ class ESPO(object):
 		t = requests.get(self.url+'App/user',headers= header)
 		self.token = json.loads(t.text)['user']['token']	
 		self.headers = {
+		'Authorization': 'Basic '+self.base64,
 		'Espo-Authorization': base64.b64encode(user+':'+self.token)
 		}
 
@@ -50,8 +51,9 @@ class ESPO(object):
 		}
 
 
-
-
+ 	#######################
+ 	#####  MC Starts ######
+ 	#######################
 	#this mehotd gets mcs form espo using the sepcified espo ID
 	def get_MC(self, mc_id):
 		r = requests.get(self.url+'MC/'+mc_id,headers= self.headers)
@@ -83,14 +85,35 @@ class ESPO(object):
 
 	#this mehotd creates the specified mc in espo
 	def create_MC(self, mc):
-		return None
+		headers = self.headers
+		headers['Content-Type'] = 'application/json'
+		data ={'expaId': mc.expa_id,
+		'name':'test',
+		'assignedUserId':'1',
+		'assignedUserName':'Admin',
+		'teamsIds[]':[],
+		'teamsNames[]':[]
+		}
+		r = requests.post(self.url+'MC', headers= headers,data=json.dumps(data))
+		return json.loads(r.text)
 
 	#updates an MC that already exists in espo
 	def update_MC(self,mc):
-		return None
+		headers = self.headers
+		headers['Content-Type'] = 'application/json'
+		data ={'expaId': mc.expa_id,
+		}
+		r = requests.request('PATCH',self.url+'MC/'+mc.espo_id, headers= headers,data=json.dumps(data))
+		return json.loads(r.text)
+
+ 	#######################
+ 	#####  MC Ends ######
+ 	#######################
 
 
-
+  	#######################
+ 	#####  APP Starts ######
+ 	#######################
 
 	#this mehotd gets applications form espo using the sepcified espo ID
 	def get_application(self, application_id):
@@ -122,15 +145,35 @@ class ESPO(object):
 		
 
 	#this mehotd gets applications form espo using the sepcified espo ID
-	def create_application(self, application_id):
-		return None
+	def create_application(self, application):
+		headers = self.headers
+		headers['Content-Type'] = 'application/json'
+		data ={'expa_id': application.expa_id,
+		'assignedUserId':'1',
+		'assignedUserName':'Admin',
+		'teamsIds[]':[],
+		'teamsNames[]':[]
+		}
+		r = requests.post(self.url+'Application', headers= headers,data=json.dumps(data))
+		return json.loads(r.text)
 
 	#updates an application that already exists in podio
 	def update_application(self,application):
-		return None
+		headers = self.headers
+		headers['Content-Type'] = 'application/json'
+		data ={'expa_id': application.expa_id,
+		}
+		r = requests.request('PATCH',self.url+'Application/'+application.espo_id, headers= headers,data=json.dumps(data))
+		return json.loads(r.text)
+
+ 	#######################
+ 	#####  App Ends ######
+ 	#######################
 
 
-
+ 	#######################
+ 	#####  Enabler Starts ######
+ 	#######################
 
 	#this mehotd gets enablers form espo using the sepcified espo ID
 	def get_enabler(self, enabler_id):
@@ -163,14 +206,36 @@ class ESPO(object):
 			return json.loads(r.text)['list']
 
 	#this mehotd gets enablers form espo using the sepcified espo ID
-	def create_enabler(self, enabler_id):
-		return None
+	def create_enabler(self, enabler):
+		headers = self.headers
+		headers['Content-Type'] = 'application/json'
+		data ={'expa_id': enabler.expa_id,
+		'assignedUserId':'1',
+		'assignedUserName':'Admin',
+		'teamsIds[]':[],
+		'teamsNames[]':[]
+		}
+		r = requests.post(self.url+'EnablerEXPA', headers= headers,data=json.dumps(data))
+		return json.loads(r.text)
 
 	#updates an enabler that already exists in podio
 	def update_enabler(self,enabler):
-		return None
+		headers = self.headers
+		headers['Content-Type'] = 'application/json'
+		data ={'expa_id': enabler.expa_id,
+		}
+		r = requests.request('PATCH',self.url+'EnablerEXPA/'+enabler.espo_id, headers= headers,data=json.dumps(data))
+		return json.loads(r.text)
 
 
+ 	#######################
+ 	#####  Enabler Ends ######
+ 	#######################
+
+
+ 	#######################
+ 	#####  LC Starts ######
+ 	#######################
 
 	#this mehotd gets lcs form espo using the sepcified espo ID
 	def get_lc(self, lc_id):
@@ -203,13 +268,36 @@ class ESPO(object):
 			return json.loads(r.text)['list']
 
 	#this mehotd gets lcs form espo using the sepcified espo ID
-	def create_lc(self, lc_id):
-		return None
+	def create_lc(self, lc):
+		headers = self.headers
+		headers['Content-Type'] = 'application/json'
+		data ={'eXPAId': lc.expa_id,
+		'assignedUserId':'1',
+		'assignedUserName':'Admin',
+		'teamsIds[]':[],
+		'teamsNames[]':[]
+		}
+		r = requests.post(self.url+'LC', headers= headers,data=json.dumps(data))
+		return json.loads(r.text)
 
 	#updates an lc that already exists in podio
 	def update_lc(self,lc):
-		return None
+		headers = self.headers
+		headers['Content-Type'] = 'application/json'
+		data ={'eXPAId': lc.expa_id,
+		}
+		r = requests.request('PATCH',self.url+'LC/'+lc.espo_id, headers= headers,data=json.dumps(data))
+		return json.loads(r.text)
 
+
+ 	#######################
+ 	#####  LC Starts ######
+ 	#######################
+
+
+ 	#######################
+ 	#####  Oppo Starts ######
+ 	#######################
 
 
 	#this mehotd gets opportunities form espo using the sepcified espo ID
@@ -240,14 +328,35 @@ class ESPO(object):
 			return json.loads(r.text)['list']
 
 	#this mehotd gets opportunitys form espo using the sepcified espo ID
-	def create_opportunity(self, opportunity_id):
-		return None
+	def create_opportunity(self, opportunity):
+		headers = self.headers
+		headers['Content-Type'] = 'application/json'
+		data ={'expa_id': opportunity.expa_id,
+		'assignedUserId':'1',
+		'assignedUserName':'Admin',
+		'teamsIds[]':[],
+		'teamsNames[]':[]
+		}
+		r = requests.post(self.url+'OpportunityExpa', headers= headers,data=json.dumps(data))
+		return json.loads(r.text)
 
 	#updates an opportunity that already exists in podio
 	def update_opportunity(self,opportunity):
-		return None
+		headers = self.headers
+		headers['Content-Type'] = 'application/json'
+		data ={'expa_id': opportunity.expa_id,
+		}
+		r = requests.request('PATCH',self.url+'OpportunityExpa/'+opportunity.espo_id, headers= headers,data=json.dumps(data))
+		return json.loads(r.text)
+
+ 	#######################
+ 	#####  Opp Ends ######
+ 	#######################
 
 
+ 	#######################
+ 	#####  Person Starts ######
+ 	#######################
 
 
 	#this mehotd gets persons form espo using the sepcified espo ID
@@ -281,8 +390,27 @@ class ESPO(object):
 
 	#this mehotd gets persons form espo using the sepcified espo ID
 	def create_person(self, person_id):
-		return None
+		headers = self.headers
+		headers['Content-Type'] = 'application/json'
+		data ={'expa_id': person_id,
+		'assignedUserId':'1',
+		'assignedUserName':'Admin',
+		'teamsIds[]':[],
+		'teamsNames[]':[]
+		}
+		r = requests.post(self.url+'Person', headers= headers,data=json.dumps(data))
+		return json.loads(r.text)
 
 	#updates an person that already exists in podio
 	def update_person(self,person):
-		return None
+		headers = self.headers
+		headers['Content-Type'] = 'application/json'
+		data ={'expa_id': person.expa_id,
+		}
+		r = requests.request('PATCH',self.url+'Person/'+person.espo_id, headers= headers,data=json.dumps(data))
+		return json.loads(r.text)
+
+
+	#######################
+ 	#####  Person ends ######
+ 	#######################

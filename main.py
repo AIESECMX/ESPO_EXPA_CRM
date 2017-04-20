@@ -2,7 +2,7 @@ from Controller.gis_token_generator import GIS
 from Controller.espo import ESPO
 from Controller.expa import EXPA
 import config
-
+from Model.mc import MC
 
 def main ():
 
@@ -16,17 +16,24 @@ def main ():
 
 
 	espo =  ESPO(user,passwd,test = test )
+	mc = MC('imaginario',str(9),'58f8f88e3bdb98c4a')
+	#espo.create_MC(mc)
+	#espo.create_application(7)
+	#espo.create_enabler(7)
+	#espo.create_lc(7)
+	#espo.create_opportunity(7)
 	#print espo.token
 	#espo.get_MC('58d192e82587727f1')
-	#espo.get_MCs()
+	espo.get_MCs()
+	espo.update_MC(mc)
 	#print espo.get_expa_MC(1589)
 	#espo.get_applications()
 	#espo.get_persons()
 	#espo.get_opportunities()
 	#espo.get_lcs()
 	#espo.get_enablers()
-	expa =  EXPA('enrique.suarez@aiesec.net','si no leo me aburro')
-	print expa.get_LCs()
+	#expa =  EXPA('enrique.suarez@aiesec.net','si no leo me aburro')
+	#print expa.get_LCs()
 	#print tokeng.generate_token('','')
 	#print tokeng.generate_op_token('','')
 	
