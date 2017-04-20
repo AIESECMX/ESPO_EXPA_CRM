@@ -22,7 +22,7 @@ class EXPA(object):
 	def get_MCs(self, paramaters = None):
 		if(paramaters != None):
 			params = paramaters
-			params.append({'access_token':self.expa_token})
+			params.['access_token']=self.expa_token 
 		else:
 			params = {'filters[parent]':[1589],
 			'access_token':self.expa_token}
@@ -39,7 +39,7 @@ class EXPA(object):
 	def get_LCs(self,paramaters = None):
 		if(paramaters != None):
 			headers = paramaters
-			headers.append({'access_token':self.expa_token})
+			headers.['access_token']=self.expa_token 
 		else:
 			headers = {'access_token': self.expa_token,
 			'filters[parent][]':[1589]}
@@ -62,7 +62,7 @@ class EXPA(object):
 	def get_People(self, paramaters = None):
 		if(paramaters != None):
 			params = paramaters
-			params.append({'access_token':self.expa_token})
+			params.['access_token']=self.expa_token 
 		else:
 			params = {'filters[mcs]':[1589],
 			'access_token':self.expa_token}
@@ -78,7 +78,7 @@ class EXPA(object):
 	def get_Opps(self,paramaters = None):
 		if(paramaters != None):
 			params = paramaters
-			params.append({'access_token':self.expa_token})
+			params.['access_token']=self.expa_token 
 		else:
 			params = {'filters[home_mcs]':[1589],
 			'access_token':self.expa_token}
@@ -94,7 +94,7 @@ class EXPA(object):
 	def get_Applications(self,paramaters = None):
 		if(paramaters != None):
 			params = paramaters
-			params.append({'access_token':self.expa_token})
+			params['access_token']=self.expa_token
 		else:
 			params = {'filters[opportunity_home_mc]':[1589],
 			'access_token':self.expa_token}
@@ -109,7 +109,7 @@ class EXPA(object):
 	def get_Enablers(self, paramaters = None):
 		if(paramaters != None):
 			params = paramaters
-			params.append({'access_token':self.expa_token})
+			params.['access_token']=self.expa_token 
 		else:
 			params = {'filters[committee]':[1589],
 			'access_token':self.expa_token}
