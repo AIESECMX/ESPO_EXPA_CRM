@@ -117,8 +117,8 @@ class ESPO(object):
 
 	#this mehotd gets applications form espo using the sepcified espo ID
 	def get_application(self, application_id):
-		r = requests.get(self.url+'Application/'+mc_id,headers= self.headers)
-		return json.loads(r.text)
+		r = requests.get(self.url+'Application/'+application_id,headers= self.headers)
+		return json.loads(r.text) if r.text != '' else  "{}"
 
 	#this mehotd gets applications form espo using the sepcified expa ID
 	def get_expa_application(self, application_id):
@@ -178,7 +178,7 @@ class ESPO(object):
 	#this mehotd gets enablers form espo using the sepcified espo ID
 	def get_enabler(self, enabler_id):
 		r = requests.get(self.url+'EnablerEXPA/'+mc_id,headers= self.headers)
-		return json.loads(r.text)
+		return json.loads(r.text)  if r.text != '' else  "{}"
 
 
 	#this mehotd gets enablers form espo using the sepcified expa ID
@@ -240,7 +240,7 @@ class ESPO(object):
 	#this mehotd gets lcs form espo using the sepcified espo ID
 	def get_lc(self, lc_id):
 		r = requests.get(self.url+'LC/'+mc_id,headers= self.headers)
-		return json.loads(r.text)
+		return json.loads(r.text)  if r.text != '' else  "{}"
 
 	#this mehotd gets lcs form espo using the sepcified expa ID
 	def get_expa_lc(self, lc_id):
@@ -303,7 +303,7 @@ class ESPO(object):
 	#this mehotd gets opportunities form espo using the sepcified espo ID
 	def get_opportunity(self, opportunity_id):
 		r = requests.get(self.url+'OpportunityExpa/'+mc_id,headers= self.headers)
-		return json.loads(r.text)
+		return json.loads(r.text)  if r.text != '' else  "{}"
 
 	#this mehotd gets opportunities form espo using the sepcified expa ID
 	def get_expa_opportunity(self, opportunity_id):
@@ -362,7 +362,7 @@ class ESPO(object):
 	#this mehotd gets persons form espo using the sepcified espo ID
 	def get_person(self, person_id):
 		r = requests.get(self.url+'Person/'+mc_id,headers= self.headers)
-		return json.loads(r.text)
+		return json.loads(r.text)  if r.text != '' else  "{}"
 
 
 	#this mehotd gets persons form espo using the sepcified espo ID
