@@ -39,15 +39,15 @@ class EXPA(object):
 	def get_LCs(self,paramaters = None):
 		if(paramaters != None):
 			headers = paramaters
-			headers.append({'access_token':self.expa_token})
+			headers['access_token'] = self.expa_token
 		else:
-			headers = {'access_token': self.expa_token,
-			'filters[parent][]':[1589]}
+			headers = {'access_token': self.expa_token}
+			headers['filters[parent]'] = [1589]
 		r = requests.get(self.url+'committees', data = headers)
 		return json.loads(r.text)
 
 	#this mehotd gets LCs form expa using the sepcified EXPA ID
-	def get_LC(self,lc_id):
+	def get_LC(self, lc_id = 1014):
 		params = {'access_token':self.expa_token}
 		response = requests.get(self.url+'committees/' + str(lc_id) + '.json', data=params)
 		return json.loads(response.text)
@@ -62,9 +62,9 @@ class EXPA(object):
 	def get_People(self, paramaters = None):
 		if(paramaters != None):
 			params = paramaters
-			params.append({'access_token':self.expa_token})
+			params['access_token'] = self.expa_token
 		else:
-			params = {'filters[mcs]':[1589],
+			params = {'filters[mcs]':[1589,577],
 			'access_token':self.expa_token}
 		response = requests.get(self.url+'people', data=params)
 		return json.loads(response.text)
@@ -78,10 +78,10 @@ class EXPA(object):
 	def get_Opps(self,paramaters = None):
 		if(paramaters != None):
 			params = paramaters
-			params.append({'access_token':self.expa_token})
+			params['access_token'] = self.expa_token
 		else:
-			params = {'filters[home_mcs]':[1589],
-			'access_token':self.expa_token}
+			params = {'access_token':self.expa_token}
+			params['filters[committee]'] = 1014
 		response = requests.get(self.url+'opportunities', data=params)
 		return json.loads(response.text)
 
@@ -94,7 +94,7 @@ class EXPA(object):
 	def get_Applications(self,paramaters = None):
 		if(paramaters != None):
 			params = paramaters
-			params.append({'access_token':self.expa_token})
+			params['access_token'] = self.expa_token
 		else:
 			params = {'filters[opportunity_home_mc]':[1589],
 			'access_token':self.expa_token}
@@ -109,7 +109,7 @@ class EXPA(object):
 	def get_Enablers(self, paramaters = None):
 		if(paramaters != None):
 			params = paramaters
-			params.append({'access_token':self.expa_token})
+			params['access_token'] = self.expa_token
 		else:
 			params = {'filters[committee]':[1589],
 			'access_token':self.expa_token}
