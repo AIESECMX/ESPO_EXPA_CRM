@@ -56,8 +56,9 @@ class ESPO(object):
  	#######################
 	#this mehotd gets mcs form espo using the sepcified espo ID
 	def get_MC(self, mc_id):
-		r = requests.get(self.url+'MC/'+mc_id,headers= self.headers)
-		return json.loads(r.text)
+		r = requests.get(self.url+'MC/'+str(mc_id),headers= self.headers)
+		print r.text == ''
+		return json.loads(r.text) if r.text != '' else []
 
 	#this mehotd gets mcs form espo using the sepcified expa ID
 	def get_expa_MC(self, mc_id):
@@ -88,7 +89,7 @@ class ESPO(object):
 		headers = self.headers
 		headers['Content-Type'] = 'application/json'
 		data ={'expaId': mc.expa_id,
-		'name':'test',
+		'name':mc.name,
 		'assignedUserId':'1',
 		'assignedUserName':'Admin',
 		'teamsIds[]':[],
@@ -132,7 +133,7 @@ class ESPO(object):
 			return None
 
 		r = requests.get(self.url+'Application',headers= self.headers,params=params)
-		return json.loads(r.text)['list']
+		return json.loads(r.text)['list']  if r.text != '' else  None
 
 	#gets a list of applications with the specified espo parameters 
 	def get_applications(self, params= None):
@@ -273,12 +274,24 @@ class ESPO(object):
 		headers['Content-Type'] = 'application/json'
 		data ={'eXPAId': lc.expa_id,
 		'assignedUserId':'1',
+		'name':lc.name,
 		'assignedUserName':'Admin',
 		'teamsIds[]':[],
 		'teamsNames[]':[]
 		}
 		r = requests.post(self.url+'LC', headers= headers,data=json.dumps(data))
 		return json.loads(r.text)
+
+	#setting the MC for an LC
+	def set_mc_to_lc(self,lc, mc):
+		data ={'mCId': mc.espo_id}
+		headers = self.headers
+		headers['Content-Type'] = 'application/json'
+		r = requests.request('PATCH',self.url+'LC/'+str(lc.espo_id), headers= headers,data=json.dumps(data))
+		print r.url
+		return r.text
+
+
 
 	#updates an lc that already exists in podio
 	def update_lc(self,lc):
