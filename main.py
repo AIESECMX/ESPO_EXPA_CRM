@@ -41,40 +41,49 @@ def get_appls(expa,espo, date = datetime.date.today()-datetime.timedelta(1) ):
 		#we need to check if the op and ep lc exist in the CRM
 		else:
 			#check if the lc exist
+			print 'check lc espo'
 			check_lc_espo(expa,espo,appl['opportunity']['office']['id'],appl['opportunity']['office']['name'])
-			return None
+			
 
 #this method works to see if the a local committee exists already in espo
 def check_lc_espo(expa,espo,lc_id,lc_name):
 	#esto quiere decir que el lc no esta en el CRM
-	if len(espo.get_expa_lc(lc_id)) == 0:
-		#todo create the lc in espo
-		lc = expa.get_LC(lc_id)
+	lc =LC(lc_name,lc_id)
+	#getting the lcs in espo that could match the id
+	lcs_espo = espo.get_expa_lc(lc_id)
+	print lcs_espo
+	if len(lcs_espo) == 0:
+		
+		lc_expa = expa.get_LC(lc_id)
 		print 'creado lc '
-		print lc 
+		print lc_expa
 		#saving the lc to espo
-		lc_espo =  espo.create_lc(LC(lc_name,lc_id))
-		if lc['parent']:
-			print 'si tenia parent'
-			#TODO: we are saving the mc but we need to also create the relation with the LC
-			mc_espo =  check_mc_espo(expa,espo,lc['parent']['id'],lc['parent']['name'])
-			print 'MC ESPO'
-			print 'MC ESPO'
-			print mc_espo
+		lc_espo =  espo.create_lc(lc)
+		lc.espo_id = lc_espo['id']
+		if lc_expa['parent']:
+			#check f the mc is already in expa or put it there
+			mc_espo =  check_mc_espo(expa,espo,lc_expa['parent']['id'],lc_expa['parent']['name'],lc)
 			#here we will create the relation between mc and lc
-			print espo.set_mc_to_lc( LC (lc_espo['name'], espo_id=lc_espo['id']) , MC (mc_espo['name'], espo_id=mc_espo['id']) )
 
 	#este else quiere decir que el lc si esta en espo y hay que regresar le id del lc
 	else:
-		return None
-	print espo.get_expa_lc(lc_id)
+		return LC(lcs_espo[0]['name'],lcs_espo[0]['expaId'],lcs_espo[0]['id'])
 
-def check_mc_espo(expa,espo,mc_id,mc_name):
-	mc = espo.get_MC(mc_id)
-	if len(mc) == 0:
-		return espo.create_MC(MC(mc_name,mc_id))
+#check if the mc exist in expa and if not then it puts it in expa
+def check_mc_espo(expa,espo,mc_id,mc_name,lc):
+	mc = espo.get_expa_MC(mc_id)
+	#check if there is the mc in espo
+	print 'checking mc '+mc_name
+	if  mc == None:
+		print 'no se encontro'
+		#if the mc is in not in espo the create it
+		mc_espo = espo.create_MC(MC(mc_name,mc_id))
+		espo.set_mc_to_lc( lc , MC (mc_espo['name'], expa_id=mc_espo['expaId'], espo_id=mc_espo['id']))
+		return MC(mc_espo['name'],mc_espo['expaId'],mc_espo['id'])
 	else:
-		return mc[0] 
+		print 'si se encontro'
+		#if the mc is in espo then return it
+		return  MC(mc.name,mc.expa_id,mc.espo_id) 
 
 
 
@@ -92,7 +101,7 @@ def main ():
 
 	espo =  ESPO(user,passwd,test = test )
 	#print  espo.get_application('')
-	expa =  EXPA('enrique.suarez@aiesec.net','si no leo me aburro')
+	expa =  EXPA(config.EXPA_USER,config.EXPA_PASS)
 	get_appls(expa,espo)
 	#print expa.get_LCs()
 	

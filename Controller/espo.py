@@ -58,7 +58,11 @@ class ESPO(object):
 	def get_MC(self, mc_id):
 		r = requests.get(self.url+'MC/'+str(mc_id),headers= self.headers)
 		print r.text == ''
-		return json.loads(r.text) if r.text != '' else []
+		if r.text != '':
+			mc_espo = json.loads(r.text)
+			return  MC(mc_espo['name'], mc_espo['expaId'], mc_espo['id']) 
+		else:
+			return None
 
 	#this mehotd gets mcs form espo using the sepcified expa ID
 	def get_expa_MC(self, mc_id):
@@ -69,9 +73,19 @@ class ESPO(object):
 				'where[0][value]':mc_id
 				}
 		else:
-			return None
+			params = {
+				'where[0][type]':'equals',
+				'where[0][attribute]':'expaId',
+				'where[0][value]':mc_id
+				}
 		r = requests.get(self.url+'MC',headers= self.headers,params=params)
-		return json.loads(r.text)['list']
+		if r.text != '{"total":0,"list":[]}':
+			mc_espo = json.loads(r.text)['list'][0]
+			print r.text
+			return  MC(mc_espo['name'], mc_espo['expaId'], mc_espo['id']) 
+		else:
+			return None
+		
 		
 
 	#gets a list of MCs with the specified espo parameters 
@@ -123,15 +137,11 @@ class ESPO(object):
 
 	#this mehotd gets applications form espo using the sepcified expa ID
 	def get_expa_application(self, application_id):
-		if self.test:
-			params = {
-				'where[0][type]':'equals',
-				#'where[0][attribute]':'todo',
-				'where[0][value]':application_id
-				}
-		else:
-			return None
-
+		params = {
+			'where[0][type]':'equals',
+			'where[0][attribute]':'expaId',
+			'where[0][value]':application_id
+			}
 		r = requests.get(self.url+'Application',headers= self.headers,params=params)
 		return json.loads(r.text)['list']  if r.text != '' else  None
 
@@ -248,7 +258,7 @@ class ESPO(object):
 		if self.test:
 			params = {
 				'where[0][type]':'equals',
-				'where[0][attribute]':'todo',
+				'where[0][attribute]':'expaId',
 				'where[0][value]':lc_id
 				}
 		else:
@@ -272,7 +282,7 @@ class ESPO(object):
 	def create_lc(self, lc):
 		headers = self.headers
 		headers['Content-Type'] = 'application/json'
-		data ={'eXPAId': lc.expa_id,
+		data ={'expaId': lc.expa_id,
 		'assignedUserId':'1',
 		'name':lc.name,
 		'assignedUserName':'Admin',
