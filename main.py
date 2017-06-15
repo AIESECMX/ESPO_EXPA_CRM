@@ -2,6 +2,9 @@ from Controller.gis_token_generator import GIS
 from Controller.espo import ESPO
 from Controller.expa import EXPA
 import config
+from Model.opportunity import Opp
+from Model.enabler import Enabler
+from Model.person import Person
 from Model.mc import MC
 from Model.lc import LC
 from Model.application import Appl
@@ -32,7 +35,7 @@ def get_appls(expa,espo, date = datetime.date.today()-datetime.timedelta(1) ):
 		#creando las aplicaciones que tuvieron las updates en el ultimo dia
 		appl_espo = Appl(expa_id = appl['id'],person_id= appl['person']['id'], op_id = appl['opportunity']['office']['id'],
 			person_lc_id = appl['person']['home_lc']['id'] , op_lc_id = appl['opportunity']['office']['id'])
-		#we need to check if the app already exist or if tis a new app (in espo)
+		#we need to check if the app already exist or if tis a new app (in espo),
 		#this line meas that there is somehting in ESPO with this expa ID
 		if  espo.get_expa_application(appl['id']):
 			#todo check the update works
@@ -42,7 +45,9 @@ def get_appls(expa,espo, date = datetime.date.today()-datetime.timedelta(1) ):
 		else:
 			#check if the lc exist
 			print 'check lc espo'
-			check_lc_espo(expa,espo,appl['opportunity']['office']['id'],appl['opportunity']['office']['name'])
+			lc = check_lc_espo(expa,espo,appl['opportunity']['office']['id'],appl['opportunity']['office']['name'])
+			ep = check_ep_espo(expa,espo,appl['person']['id'],appl['person']['name'],appl['person']['home_lc']['id'])
+			check_opp_espo(expa,espo,appl['opportunity']['id'],lc,ep)
 			
 
 #this method works to see if the a local committee exists already in espo
@@ -62,7 +67,7 @@ def check_lc_espo(expa,espo,lc_id,lc_name):
 		lc.espo_id = lc_espo['id']
 		if lc_expa['parent']:
 			#check f the mc is already in expa or put it there
-			mc_espo =  check_mc_espo(expa,espo,lc_expa['parent']['id'],lc_expa['parent']['name'],lc)
+			mc_espo = check_mc_espo(expa,espo,lc_expa['parent']['id'],lc_expa['parent']['name'],lc)
 			#here we will create the relation between mc and lc
 
 	#este else quiere decir que el lc si esta en espo y hay que regresar le id del lc
@@ -85,8 +90,31 @@ def check_mc_espo(expa,espo,mc_id,mc_name,lc):
 		#if the mc is in espo then return it
 		return  MC(mc.name,mc.expa_id,mc.espo_id) 
 
-
-
+# recisa la existencia del EP en ESPO
+def check_ep_espo(expa,espo,ep_id,ep_name,lc):
+	print 'revisando EP ' + ep_name
+	ep = espo.get_expa_person(ep_id)
+	if ep == None:
+		print 'sin resultados'
+		ep_espo = espo.create_person(ep_name, ep_id)
+		return Person(ep_name,ep_id,0,lc.expa_id)
+	else:
+		print 'EP encontrado'
+		return Person(ep.name,ep.expa_id,ep.espo_id,ep.lc_id)
+		
+def check_opp_espo(expa,espo,opp_id,lc,ep):
+	print 'Comprobando Opp ' + opp_id
+	opp = espo.get_expa_opportunity(opp_id)
+	opp_name = ''
+	
+	if opp == None:
+		print 'Opportunity no encontrada'
+		opp_espo = espo.create_opportunity(Opp(opp_name,opp_id,0,lc.lc_id,0))
+		return Opp(opp_name,opp_id,0,lc.lc_id,0)
+		
+	else:
+		print 'Opp en sistema'
+		return Opp(opp.name,opp.expa_id,opp.espo_id,opp.lc_id,opp.enabler_id)
 
 def main ():
 

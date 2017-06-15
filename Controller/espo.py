@@ -325,7 +325,7 @@ class ESPO(object):
 
 	#this mehotd gets opportunities form espo using the sepcified espo ID
 	def get_opportunity(self, opportunity_id):
-		r = requests.get(self.url+'OpportunityExpa/'+mc_id,headers= self.headers)
+		r = requests.get(self.url+'OpportunityExpa/'+opportunity_id,headers= self.headers)
 		return json.loads(r.text)  if r.text != '' else  "{}"
 
 	#this mehotd gets opportunities form espo using the sepcified expa ID
@@ -384,7 +384,7 @@ class ESPO(object):
 
 	#this mehotd gets persons form espo using the sepcified espo ID
 	def get_person(self, person_id):
-		r = requests.get(self.url+'Person/'+mc_id,headers= self.headers)
+		r = requests.get(self.url+'Person/'+person_id,headers= self.headers)
 		return json.loads(r.text)  if r.text != '' else  "{}"
 
 
