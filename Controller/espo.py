@@ -24,10 +24,13 @@ class ESPO(object):
 		}
 		self.test = test
 		if (self.test):
-			self.url = 'http://104.197.179.91/espocrm/api/v1/'
+			self.url = 'http://104.197.10.177/espocrm/api/v1/'
 		else:
 			self.url = 'http://107.178.211.253/espocrm/api/v1/'
-		t = requests.get(self.url+'App/user',headers= header)
+		t = requests.get(self.url,headers= header)
+		print t
+		print t.text
+		sys.exit(0)
 		self.token = json.loads(t.text)['user']['token']	
 		self.headers = {
 		'Authorization': 'Basic '+self.base64,
@@ -41,7 +44,7 @@ class ESPO(object):
 		}
 		self.test = test
 		if (self.test):
-			self.url = 'http://104.197.179.91/espocrm/api/v1/'
+			self.url = 'http://104.197.10.177/espocrm/api/v1/'
 		else:
 			self.url = 'http://107.178.211.253/espocrm/api/v1/'
 		t = requests.get(self.url+'App/user',headers= header)

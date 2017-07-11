@@ -126,7 +126,6 @@ def main ():
 		user = config.CRM_USER
 		passwd = config.CRM_PASSWD
 
-
 	espo =  ESPO(user,passwd,test = test )
 	#print  espo.get_application('')
 	expa =  EXPA(config.EXPA_USER,config.EXPA_PASS)
